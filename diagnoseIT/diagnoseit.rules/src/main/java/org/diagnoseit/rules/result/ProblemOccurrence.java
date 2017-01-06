@@ -1,10 +1,10 @@
 package org.diagnoseit.rules.result;
 
-import org.diagnoseit.rules.result.ProblemOccurrence.CauseStructure;
 import org.diagnoseit.rules.util.AggregatedCallable;
+import org.spec.research.open.xtrace.api.core.Trace;
+import org.spec.research.open.xtrace.api.core.callables.Callable;
 
-import rocks.cta.api.core.Trace;
-import rocks.cta.api.core.callables.Callable;
+
 
 public class ProblemOccurrence {
 
