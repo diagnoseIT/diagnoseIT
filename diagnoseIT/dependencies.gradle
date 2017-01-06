@@ -50,6 +50,9 @@ subprojects {
 
 		'com.google.guava:guava-jdk5:13.0',
 		'org.springframework:spring-core:4.3.0.RELEASE',
-		'org.springframework:spring-context:4.3.0.RELEASE'
+		'org.springframework:spring-context:4.3.0.RELEASE',
+		
+		'rocks.cta:cta.api:0.2.0-SNAPSHOT',
+		'rocks.cta:cta.default.impl:0.2.0-SNAPSHOT'
 	}
 }

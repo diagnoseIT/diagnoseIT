@@ -22,12 +22,11 @@ import org.diagnoseit.rules.result.ProblemInstanceResultCollector;
 import org.diagnoseit.rules.result.ProblemOccurrence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spec.research.open.xtrace.api.core.Trace;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 
-
+import rocks.cta.api.core.Trace;
 
 public class DiagnoseIT implements Runnable{
 	private static final long TIMEOUT = 50;
@@ -38,7 +37,6 @@ public class DiagnoseIT implements Runnable{
 	
 	private final int capacity = 100;
 
-	// influx
 	private final BlockingQueue<DiagnosisInput> queue = new LinkedBlockingQueue<>(capacity);
 
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -52,10 +50,8 @@ public class DiagnoseIT implements Runnable{
 	}
 
 
-	// influx 
 	public boolean diagnose(Trace trace, long baseline) {
 		try {
-			// influx
 			return queue.offer(new DiagnosisInput(trace, baseline), TIMEOUT, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			return false;
@@ -108,7 +104,7 @@ public class DiagnoseIT implements Runnable{
 
 		configuration.setNumSessionWorkers(2);
 		configuration.setRuleClasses(ruleClasses);
-		configuration.setResultCollector(new ProblemInstanceResultCollector<Trace>());
+		configuration.setResultCollector(new ProblemInstanceResultCollector());
 		configuration.setSessionCallback(resultHandler);
 
 		engine = new DiagnosisEngine<>(configuration);
