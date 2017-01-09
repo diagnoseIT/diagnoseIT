@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spec.research.open.xtrace.api.core.Trace;
 
+import creator.TraceCreator;
+
 /**
  * Launcher for rules that analyze a single trace.
  * 
@@ -20,7 +22,7 @@ public class Launcher {
 	/**
 	 * Rules that should be executed.
 	 */
-	public static final String RULES_PACKAGE = "org.diagnoseit.rules.impl";
+	public static final String RULES_PACKAGE = "org.diagnoseit.rules.mobile.impl";
 
 	/**
 	 * Path to traces that should be analyzed.
@@ -34,7 +36,9 @@ public class Launcher {
 	private static final String KIEKER_FILE = "path to kieker file";
 
 	public static void main(String[] args) throws ClassNotFoundException {
-		startLauncher(null);
+		TraceCreator creator = new TraceCreator();
+		Trace trace = creator.getTestTrace1();
+		startLauncher(trace);
 	}
 
 	/**
