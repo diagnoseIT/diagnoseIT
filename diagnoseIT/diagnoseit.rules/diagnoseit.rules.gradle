@@ -1,3 +1,4 @@
 dependencies {
 	compile project(':diagnoseit.ruleengine')
+	compile files('libs/influxdb-java.jar')
 }

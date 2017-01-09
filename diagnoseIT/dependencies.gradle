@@ -52,7 +52,8 @@ subprojects {
 		'org.springframework:spring-core:4.3.0.RELEASE',
 		'org.springframework:spring-context:4.3.0.RELEASE',
 		
-		'rocks.cta:cta.api:0.2.0-SNAPSHOT',
-		'rocks.cta:cta.default.impl:0.2.0-SNAPSHOT'
+		'org.spec.research:open.xtrace.default.impl:0.2.0',
+		'org.spec.research:open.xtrace.api:0.2.0'
+		
 	}
 }
