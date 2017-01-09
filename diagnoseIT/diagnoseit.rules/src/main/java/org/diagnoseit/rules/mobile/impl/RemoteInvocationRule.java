@@ -52,7 +52,8 @@ public class RemoteInvocationRule {
 		if (amountOfRemoteInvocations > amountOfCallables
 				* REMOTE_CALLS_PERCENT) {
 			System.out.println("Too many Remote Calls");
+			return true;
 		}
-		return true;
+		return false;
 	}
 }
