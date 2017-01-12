@@ -22,7 +22,21 @@ public class Launcher {
 	/**
 	 * Rules that should be executed.
 	 */
-	public static final String RULES_PACKAGE = "org.diagnoseit.rules.mobile.impl";
+	public enum RulePackage {
+		DefaultPackage("org.diagnoseit.rules.impl"),
+		MobilePackage("org.diagnoseit.rules.mobile.impl");
+
+		private String packageName;
+
+		RulePackage(String packageName) {
+			this.packageName = packageName;
+		}
+
+		public String getPackageName() {
+			return this.packageName;
+		}
+
+	};
 
 	/**
 	 * Path to traces that should be analyzed.
@@ -46,17 +60,17 @@ public class Launcher {
 	 * @throws ClassNotFoundException
 	 */
 	public static void startLauncher(Trace trace) throws ClassNotFoundException {
-		startLauncher(trace, RULES_PACKAGE);
+		startLauncher(trace, RulePackage.DefaultPackage);
 	}
 
 	/**
 	 * @param trace
 	 * @throws ClassNotFoundException
 	 */
-	public static void startLauncher(Trace trace, String rulePackage)
+	public static void startLauncher(Trace trace, RulePackage rulePackage)
 			throws ClassNotFoundException {
 		DiagnoseIT diagnoseIT = new DiagnoseIT(
-				Collections.singletonList(rulePackage));
+				Collections.singletonList(rulePackage.getPackageName()));
 		diagnoseIT.init(new ResultHandler());
 
 		long baseline = 1000L;

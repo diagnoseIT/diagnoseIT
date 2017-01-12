@@ -1,4 +1,6 @@
 dependencies {
 	compile project(':diagnoseit.ruleengine')
 	compile files('libs/influxdb-java.jar')
+	compile files('libs/open.xtrace.api.jar')
+	compile files('libs/open.xtrace.default.impl.jar')
 }

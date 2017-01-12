@@ -1,3 +1,6 @@
 dependencies {
 	compile project(':diagnoseit.ruleengine'), project(':diagnoseit.rules')
+	compile files('libs/open.xtrace.api.jar')
+	compile files('libs/open.xtrace.default.impl.jar')
+	compile files('libs/TraceCreator.jar')
 }
