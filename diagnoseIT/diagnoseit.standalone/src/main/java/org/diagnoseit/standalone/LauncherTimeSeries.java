@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.diagnoseit.engine.session.ISessionCallback;
+import org.diagnoseit.rules.mobile.timeseries.impl.InfluxDBConnectorMobile;
 import org.diagnoseit.rules.result.ProblemOccurrence;
-import org.diagnoseit.rules.timeseries.impl.InfluxDBConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class LauncherTimeSeries {
 
-	private static final String RULES_PACKAGE = "org.diagnoseit.rules.timeseries.impl";
+	private static final String RULES_PACKAGE = "org.diagnoseit.rules.mobile.timeseries.impl";
 
 	public static void main(String[] args) throws ClassNotFoundException {
 		Thread timeThread = new TimeseriesThread();
@@ -63,7 +63,7 @@ public class LauncherTimeSeries {
 						Collections.singletonList(RULES_PACKAGE));
 				try {
 					diagnoseIT.init(new ResultHandler());
-					diagnoseIT.diagnose(new InfluxDBConnector());
+					diagnoseIT.diagnose(new InfluxDBConnectorMobile());
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

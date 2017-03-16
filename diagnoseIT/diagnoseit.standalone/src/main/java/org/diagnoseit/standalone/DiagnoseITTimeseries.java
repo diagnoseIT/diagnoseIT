@@ -14,6 +14,7 @@ import org.diagnoseit.engine.DiagnosisEngineConfiguration;
 import org.diagnoseit.engine.IDiagnosisEngine;
 import org.diagnoseit.engine.rule.annotation.Rule;
 import org.diagnoseit.engine.session.ISessionCallback;
+import org.diagnoseit.rules.mobile.timeseries.impl.InfluxDBConnectorMobile;
 import org.diagnoseit.rules.result.ProblemInstanceResultCollector;
 import org.diagnoseit.rules.result.ProblemOccurrence;
 import org.diagnoseit.rules.timeseries.impl.InfluxDBConnector;
@@ -40,14 +41,14 @@ public class DiagnoseITTimeseries implements Runnable {
 
 	private final List<String> rulesPackages;
 
-	private IDiagnosisEngine<InfluxDBConnector> engine;
+	private IDiagnosisEngine<InfluxDBConnectorMobile> engine;
 
 	public DiagnoseITTimeseries(List<String> rulesPackages) {
 		this.rulesPackages = rulesPackages;
 	}
 
 	// influx
-	public boolean diagnose(InfluxDBConnector connector) {
+	public boolean diagnose(InfluxDBConnectorMobile connector) {
 		try {
 			// influx
 			return queue.offer(new DiagnosisInput(connector), TIMEOUT,
@@ -102,11 +103,11 @@ public class DiagnoseITTimeseries implements Runnable {
 			}
 		}
 
-		DiagnosisEngineConfiguration<InfluxDBConnector, List<ProblemOccurrence>> configuration = new DiagnosisEngineConfiguration<InfluxDBConnector, List<ProblemOccurrence>>();
+		DiagnosisEngineConfiguration<InfluxDBConnectorMobile, List<ProblemOccurrence>> configuration = new DiagnosisEngineConfiguration<InfluxDBConnectorMobile, List<ProblemOccurrence>>();
 
 		configuration.setNumSessionWorkers(2);
 		configuration.setRuleClasses(ruleClasses);
-		configuration.setResultCollector(new ProblemInstanceResultCollector<InfluxDBConnector>());
+		configuration.setResultCollector(new ProblemInstanceResultCollector<InfluxDBConnectorMobile>());
 		configuration.setSessionCallback(resultHandler);
 
 		engine = new DiagnosisEngine<>(configuration);
@@ -117,20 +118,20 @@ public class DiagnoseITTimeseries implements Runnable {
 	}
 
 	private static class DiagnosisInput {
-		private final InfluxDBConnector connector;
+		private final InfluxDBConnectorMobile connector;
 
 		/**
 		 * @param invocation
 		 * @param baseline
 		 */
-		public DiagnosisInput(InfluxDBConnector connector) {
+		public DiagnosisInput(InfluxDBConnectorMobile connector) {
 			this.connector = connector;
 		}
 		/**
 		 * 
 		 * @return
 		 */
-		public InfluxDBConnector getConnector() {
+		public InfluxDBConnectorMobile getConnector() {
 			return connector;
 		}
 

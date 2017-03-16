@@ -41,7 +41,7 @@ public class Launcher {
 	/**
 	 * Path to traces that should be analyzed.
 	 */
-	private static final String INTROSCOPE_FILE = "path to introscope trace file";
+	private static final String INTROSCOPE_FILE = "C:/Users/Alper Hi/Desktop/Universität/Bachelorarbeit/Traces_CA/CA_Trace1.xml";
 
 	private static final String DYNATRACE_FILE = "path to dynatrace trace file";
 
@@ -50,9 +50,15 @@ public class Launcher {
 	private static final String KIEKER_FILE = "path to kieker file";
 
 	public static void main(String[] args) throws ClassNotFoundException {
-		TraceCreator creator = new TraceCreator();
-		Trace trace = creator.getTestTrace1();
+		
+		Trace trace = TraceCreator.getTestTrace(true, 100, 3);
+		System.out.println(trace.getRoot());
 		startLauncher(trace);
+		
+		// IntroscopeTraceConverter itc = new IntroscopeTraceConverter();
+		// List<Trace> traces = itc.convertTraces(INTROSCOPE_FILE);
+		// System.out.println(traces.get(0));
+		// startLauncher(traces.get(0));
 	}
 
 	/**
@@ -60,7 +66,7 @@ public class Launcher {
 	 * @throws ClassNotFoundException
 	 */
 	public static void startLauncher(Trace trace) throws ClassNotFoundException {
-		startLauncher(trace, RulePackage.DefaultPackage);
+		startLauncher(trace, RulePackage.MobilePackage);
 	}
 
 	/**

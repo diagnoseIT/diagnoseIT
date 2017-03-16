@@ -56,10 +56,10 @@ public class InfluxDBConnector {
 
 		Thread timeThread = new TimeseriesThread();
 		timeThread.start();
-		// InfluxDBConnector test = new InfluxDBConnector();
-		// test.connect();
+		InfluxDBConnector test = new InfluxDBConnector();
+		test.connect();
 
-		// test.writeData(242, 5, 3, 5, System.currentTimeMillis());
+		test.writeData(242, 5, 3, 5, System.currentTimeMillis());
 	}
 
 	/**
@@ -135,7 +135,8 @@ public class InfluxDBConnector {
 								// TODO Auto-generated catch block
 								try {
 									timestamp = dateFormat3.parse(
-											(String) listTuples.get(0)).getTime();
+											(String) listTuples.get(0))
+											.getTime();
 								} catch (ParseException e3) {
 									// TODO Auto-generated catch block
 									e3.printStackTrace();

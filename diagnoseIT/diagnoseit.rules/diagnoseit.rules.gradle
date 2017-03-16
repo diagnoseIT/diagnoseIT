@@ -1,6 +1,7 @@
 dependencies {
 	compile project(':diagnoseit.ruleengine')
 	compile files('libs/influxdb-java.jar')
-	compile files('libs/open.xtrace.api.jar')
-	compile files('libs/open.xtrace.default.impl.jar')
+	compile files('libs/TraceCreator.jar')
+	compile group: 'com.squareup.retrofit', name: 'retrofit', version: '1.9.0'
+	compile group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
 }

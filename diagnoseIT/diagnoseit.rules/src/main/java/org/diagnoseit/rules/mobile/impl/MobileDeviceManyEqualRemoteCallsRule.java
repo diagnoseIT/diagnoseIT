@@ -11,26 +11,32 @@ import org.diagnoseit.engine.tag.Tags;
 import org.diagnoseit.rules.RuleConstants;
 import org.spec.research.open.xtrace.api.core.Trace;
 import org.spec.research.open.xtrace.api.core.callables.Callable;
-import org.spec.research.open.xtrace.api.core.callables.DatabaseInvocation;
 import org.spec.research.open.xtrace.api.core.callables.RemoteInvocation;
-import org.spec.research.open.xtrace.api.core.callables.TimedCallable;
 
 /**
- * Rule analyzes if application executes too many equal remote calls
+ * Rule analyzes if the mobile device executed to many remote calls to the same
+ * backend.
  * 
  * @author Alper Hi
  *
  */
-@Rule(name = "ManyRemoteCallsRule")
-public class ManyRemoteCallsRule {
+@Rule(name = "MobileDeviceManyEqualRemoteCallsRule")
+public class MobileDeviceManyEqualRemoteCallsRule {
 
 	private static final double REMOTE_CALLS_PERCENT = 0.03;
 
 	@TagValue(type = Tags.ROOT_TAG)
 	private Trace trace;
 
-	@Action(resultTag = RuleConstants.TAG_REMOTE_INVOCATION)
+	/**
+	 * Rule execution.
+	 * 
+	 * @return
+	 */
+	@Action(resultTag = RuleConstants.TAG_MANY_EQUAL_REMOTE_INVOCATIONS_MOBILE)
 	public boolean action() {
+
+		System.out.println("===== MobileDeviceManyEqualRemoteCallsRule =====");
 
 		int amountOfCallables = 0;
 		List<RemoteInvocation> remoteInvocations = new LinkedList<RemoteInvocation>();
@@ -42,7 +48,7 @@ public class ManyRemoteCallsRule {
 				remoteInvocations.add(remoteInvo);
 			}
 		}
-		if (remoteInvocations.size() < 1) {
+		if (remoteInvocations.isEmpty()) {
 			return false;
 		}
 
@@ -74,16 +80,16 @@ public class ManyRemoteCallsRule {
 		boolean tooManyEqualRemoteCalls = false;
 
 		for (long amountEqualRemoteInvos : remoteInvoMap.values()) {
-			System.out
-					.println("ManyRemoteCallsRule: The amount of equal remote calls the application executed is = "
-							+ amountEqualRemoteInvos + ".");
 			if (amountEqualRemoteInvos > amountOfCallables
 					* REMOTE_CALLS_PERCENT) {
 				System.out
-						.println("ManyRemoteCallsRule: Application executed too many equal remote calls.");
+						.println("MobileDeviceManyEqualRemoteCallsRule: Mobile application executed too many equal remote calls. Amount = "
+								+ amountEqualRemoteInvos + ".");
+				// return true;
 				tooManyEqualRemoteCalls = true;
 			}
 		}
+		// return false;
 		return tooManyEqualRemoteCalls;
 	}
 }
