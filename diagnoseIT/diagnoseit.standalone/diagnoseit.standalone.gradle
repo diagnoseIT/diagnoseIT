@@ -1,4 +1,11 @@
 dependencies {
-	compile project(':diagnoseit.ruleengine'), project(':diagnoseit.rules')
+	compile project(':diagnoseit.ruleengine')
+	project(':diagnoseit.rules')
 	compile files('libs/TraceCreator.jar')
+	compile files('libs/shared.jar')
+	compile files('libs/adapters.appdynamics.jar')
+	compile files('libs/adapters.dynatrace.jar')
+	compile files('libs/adapters.inspectit.jar')
+	compile files('libs/adapters.introscope.jar')
+	compile files('libs/adapters.kieker.jar')
 }

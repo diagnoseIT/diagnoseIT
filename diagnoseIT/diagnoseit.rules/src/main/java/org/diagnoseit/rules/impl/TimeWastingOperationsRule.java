@@ -69,17 +69,6 @@ public class TimeWastingOperationsRule {
 				break;
 			}
 		}
-		// // for Testing
-		// for (AbstractAggregatedTimedCallable<? extends TimedCallable>
-		// timeWastingOp : timeWastingOperations) {
-		// System.out.println("TimeWastingOperationsRule: Amount of elements in the timeWastingOperation: "
-		// + timeWastingOp.getCallables().size());
-		// System.out
-		// .println("TimeWastingOperationsRule: Following elements are in the timeWastingOperation: "
-		// + timeWastingOp.getCallables());
-		// System.out.println("TimeWastingOperationsRule: The type of the timeWastingOperation: "
-		// + timeWastingOp.getType());
-		// }
 
 		return timeWastingOperations;
 	}
