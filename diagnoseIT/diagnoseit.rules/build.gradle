@@ -1,0 +1,4 @@
+dependencies {
+	compile project(':diagnoseit.ruleengine')
+	compile 'org.influxdb:influxdb-java:2.0'
+}

@@ -1,11 +1,22 @@
-subprojects {
+allprojects {
     apply plugin: 'java'
+    apply plugin: 'maven'
     apply plugin: 'eclipse'
 
-	version = '0.1'
-	
+}
+
+subprojects {
 	sourceCompatibility = 1.8
 	targetCompatibility = 1.8
+
+	dependencies {
+		testCompile 'junit:junit:4.8.2'
+		testCompile 'net.sourceforge.cobertura:cobertura:2.1.1'
+	}
+
+	version = '0.1.0-SNAPSHOT'
+	group = 'diagnoseit'
+
 }
 
 
