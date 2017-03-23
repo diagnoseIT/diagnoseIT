@@ -18,11 +18,9 @@ import org.diagnoseit.rules.mobile.timeseries.impl.InfluxDBConnectorMobile;
 import org.diagnoseit.rules.result.ProblemInstanceResultCollector;
 import org.diagnoseit.rules.result.ProblemOccurrence;
 import org.diagnoseit.rules.timeseries.impl.InfluxDBConnector;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
 
 public class DiagnoseITTimeseries implements Runnable {
 	private static final long TIMEOUT = 50;
@@ -89,18 +87,12 @@ public class DiagnoseITTimeseries implements Runnable {
 
 	public void init(ISessionCallback<List<ProblemOccurrence>> resultHandler)
 			throws ClassNotFoundException {
-
-		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(
-				false);
-
-		scanner.addIncludeFilter(new AnnotationTypeFilter(Rule.class));
+		
 		Set<Class<?>> ruleClasses = new HashSet<>();
 		for (String packageName : rulesPackages) {
-			for (BeanDefinition bd : scanner
-					.findCandidateComponents(packageName)) {
-				Class<?> clazz = Class.forName(bd.getBeanClassName());
-				ruleClasses.add(clazz);
-			}
+			Reflections reflections = new Reflections(packageName);
+			Set<Class<?>> subTypesOf = reflections.getTypesAnnotatedWith(Rule.class);
+			ruleClasses.addAll(subTypesOf);
 		}
 
 		DiagnosisEngineConfiguration<InfluxDBConnectorMobile, List<ProblemOccurrence>> configuration = new DiagnosisEngineConfiguration<InfluxDBConnectorMobile, List<ProblemOccurrence>>();

@@ -568,9 +568,9 @@ public class InfluxDBConnector {
 		Point point1 = Point.measurement(TABLE_TIMING_INFORMATION)
 				.tag(INFLUXDB_TAG_TRACE, String.valueOf(traceId))
 				.time(traceTimestamp, TimeUnit.MILLISECONDS)
-				.addField(COLUMN_RESPONSE_TIME, responseTime)
-				.addField(COLUMN_CPU_TIME, cpuTime)
-				.addField(COLUMN_GC_TIME, gcTime).build();
+				.field(COLUMN_RESPONSE_TIME, responseTime)
+				.field(COLUMN_CPU_TIME, cpuTime)
+				.field(COLUMN_GC_TIME, gcTime).build();
 
 		influxDB.write(DATABASE_NAME, RETENTION_POLICY, point1);
 	}

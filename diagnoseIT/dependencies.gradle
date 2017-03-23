@@ -49,8 +49,11 @@ subprojects {
 		'org.objenesis:objenesis:2.1',
 
 		'com.google.guava:guava-jdk5:13.0',
-		'org.springframework:spring-core:4.3.0.RELEASE',
-		'org.springframework:spring-context:4.3.0.RELEASE'
+		
+		'org.reflections:reflections:0.9.11',
+		
+		'org.spec.research:open.xtrace.default.impl:0.2.0',
+		'org.spec.research:open.xtrace.api:0.2.0'
 		
 	}
 }

@@ -20,13 +20,10 @@ import org.diagnoseit.engine.session.SessionVariables;
 import org.diagnoseit.rules.RuleConstants;
 import org.diagnoseit.rules.result.ProblemInstanceResultCollector;
 import org.diagnoseit.rules.result.ProblemOccurrence;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spec.research.open.xtrace.api.core.Trace;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
-
 
 
 public class DiagnoseIT implements Runnable{
@@ -92,16 +89,12 @@ public class DiagnoseIT implements Runnable{
 	}
 
 	public void init(ISessionCallback<List<ProblemOccurrence>> resultHandler) throws ClassNotFoundException {
-
-		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-
-		scanner.addIncludeFilter(new AnnotationTypeFilter(Rule.class));
+		
 		Set<Class<?>> ruleClasses = new HashSet<>();
 		for (String packageName : rulesPackages) {
-			for (BeanDefinition bd : scanner.findCandidateComponents(packageName)) {
-				Class<?> clazz = Class.forName(bd.getBeanClassName());
-				ruleClasses.add(clazz);
-			}
+			Reflections reflections = new Reflections(packageName);
+			Set<Class<?>> subTypesOf = reflections.getTypesAnnotatedWith(Rule.class);
+			ruleClasses.addAll(subTypesOf);
 		}
 
 		DiagnosisEngineConfiguration<Trace, List<ProblemOccurrence>> configuration = new DiagnosisEngineConfiguration<Trace, List<ProblemOccurrence>>();

@@ -1,6 +1,6 @@
 dependencies {
 	compile project(':diagnoseit.ruleengine')
-	compile files('libs/influxdb-java.jar')
+	compile 'org.influxdb:influxdb-java:2.0'
 	compile files('libs/open.xtrace.jar')
 	compile files('libs/TraceCreator.jar')
 	compile group: 'com.squareup.retrofit', name: 'retrofit', version: '1.9.0'
