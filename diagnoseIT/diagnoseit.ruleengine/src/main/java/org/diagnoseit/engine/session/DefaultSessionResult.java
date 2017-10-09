@@ -35,7 +35,7 @@ public class DefaultSessionResult<I> {
 	/**
 	 * The original input value which was passed to {@link DiagnosisEngine#analyze(Object)}.
 	 */
-	private final I input;
+	private I input;
 
 	/**
 	 * Map of all {@link ConditionFailure} which were discovered while running a diagnosis
@@ -44,13 +44,17 @@ public class DefaultSessionResult<I> {
 	 *
 	 * @see ConditionFailure
 	 */
-	private final Multimap<String, ConditionFailure> conditionFailures;
+	private Multimap<String, ConditionFailure> conditionFailures;
 
 	/**
 	 * Map of all {@link Tag}s which were produced but not consumed. These {@link Tag} are
 	 * considered to be the relevant ones. Those have state {@link TagState#LEAF}
 	 */
-	private final Multimap<String, Tag> endTags;
+	private Multimap<String, Tag> endTags;
+
+	public DefaultSessionResult() {
+		// Default Constructor
+	}
 
 	/**
 	 * Default Constructor.
@@ -82,6 +86,15 @@ public class DefaultSessionResult<I> {
 	}
 
 	/**
+	 * Sets {@link #input}.
+	 * 
+	 * @param input {@link #input}
+	 */
+	public void setInput(I input) {
+		this.input = input;
+	}
+
+	/**
 	 * Gets {@link #conditionFailures}.
 	 *
 	 * @return {@link #conditionFailures}
@@ -91,12 +104,30 @@ public class DefaultSessionResult<I> {
 	}
 
 	/**
+	 * Sets {@link #conditionFailures}.
+	 *
+	 * @param conditionFailures {@link #conditionFailures}
+	 */
+	public void setConditionFailures(Multimap<String, ConditionFailure> conditionFailures) {
+		this.conditionFailures = conditionFailures;
+	}
+
+	/**
 	 * Gets {@link #endTags}.
 	 *
 	 * @return {@link #endTags}
 	 */
 	public Multimap<String, Tag> getEndTags() {
 		return endTags;
+	}
+
+	/**
+	 * Sets {@link #endTags}.
+	 *
+	 * @param endTags {@link #endTags}
+	 */
+	public void setEndTags(Multimap<String, Tag> endTags) {
+		this.endTags = endTags;
 	}
 
 	// -------------------------------------------------------------

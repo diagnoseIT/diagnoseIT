@@ -28,18 +28,18 @@ public class Tag {
 	 * The type of this <code>Tag</code>. This is a simply, but unique,
 	 * identifier.
 	 */
-	private final String type;
+	private String type;
 
 	/**
 	 * The value of this Tag. No assumptions are made what the value is.
 	 * Everything is a valid value.
 	 */
-	private final Object value;
+	private Object value;
 
 	/**
 	 * The parent Tag.
 	 */
-	private final Tag parent;
+	private Tag parent;
 
 	/**
 	 * The state of this Tag.
@@ -57,6 +57,10 @@ public class Tag {
 	// Constructors
 	// -------------------------------------------------------------
 
+	public Tag() {
+		// default constructor for serialization
+	}
+	
 	/**
 	 * Default Constructor.
 	 *

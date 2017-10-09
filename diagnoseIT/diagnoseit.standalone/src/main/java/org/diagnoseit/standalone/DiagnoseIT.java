@@ -15,18 +15,16 @@ import org.diagnoseit.engine.DiagnosisEngine;
 import org.diagnoseit.engine.DiagnosisEngineConfiguration;
 import org.diagnoseit.engine.IDiagnosisEngine;
 import org.diagnoseit.engine.rule.annotation.Rule;
+import org.diagnoseit.engine.session.DefaultSessionResult;
+import org.diagnoseit.engine.session.DefaultSessionResultCollector;
 import org.diagnoseit.engine.session.ISessionCallback;
 import org.diagnoseit.engine.session.SessionVariables;
 import org.diagnoseit.rules.RuleConstants;
-import org.diagnoseit.rules.result.ProblemInstanceResultCollector;
-import org.diagnoseit.rules.result.ProblemOccurrence;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.spec.research.open.xtrace.api.core.Trace;
 
-import rocks.cta.api.core.Trace;
 
 public class DiagnoseIT implements Runnable{
 	private static final long TIMEOUT = 50;
@@ -37,6 +35,7 @@ public class DiagnoseIT implements Runnable{
 	
 	private final int capacity = 100;
 
+	// influx
 	private final BlockingQueue<DiagnosisInput> queue = new LinkedBlockingQueue<>(capacity);
 
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -50,8 +49,10 @@ public class DiagnoseIT implements Runnable{
 	}
 
 
+	// influx 
 	public boolean diagnose(Trace trace, long baseline) {
 		try {
+			// influx
 			return queue.offer(new DiagnosisInput(trace, baseline), TIMEOUT, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			return false;
@@ -87,24 +88,20 @@ public class DiagnoseIT implements Runnable{
 		}
 	}
 
-	public void init(ISessionCallback<List<ProblemOccurrence>> resultHandler) throws ClassNotFoundException {
-
-		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-
-		scanner.addIncludeFilter(new AnnotationTypeFilter(Rule.class));
+	public void init(ISessionCallback<DefaultSessionResult<Trace>> resultHandler) throws ClassNotFoundException {
+		
 		Set<Class<?>> ruleClasses = new HashSet<>();
 		for (String packageName : rulesPackages) {
-			for (BeanDefinition bd : scanner.findCandidateComponents(packageName)) {
-				Class<?> clazz = Class.forName(bd.getBeanClassName());
-				ruleClasses.add(clazz);
-			}
+			Reflections reflections = new Reflections(packageName);
+			Set<Class<?>> subTypesOf = reflections.getTypesAnnotatedWith(Rule.class);
+			ruleClasses.addAll(subTypesOf);
 		}
 
-		DiagnosisEngineConfiguration<Trace, List<ProblemOccurrence>> configuration = new DiagnosisEngineConfiguration<Trace, List<ProblemOccurrence>>();
+		DiagnosisEngineConfiguration<Trace, DefaultSessionResult<Trace>> configuration = new DiagnosisEngineConfiguration<Trace, DefaultSessionResult<Trace>>();
 
 		configuration.setNumSessionWorkers(2);
 		configuration.setRuleClasses(ruleClasses);
-		configuration.setResultCollector(new ProblemInstanceResultCollector());
+		configuration.setResultCollector(new DefaultSessionResultCollector<Trace>());
 		configuration.setSessionCallback(resultHandler);
 
 		engine = new DiagnosisEngine<>(configuration);

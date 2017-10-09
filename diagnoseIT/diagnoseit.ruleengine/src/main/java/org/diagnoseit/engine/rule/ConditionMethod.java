@@ -7,7 +7,6 @@ import java.lang.reflect.Method;
 import org.apache.commons.lang3.StringUtils;
 import org.diagnoseit.engine.rule.annotation.Condition;
 import org.diagnoseit.engine.rule.exception.RuleExecutionException;
-import org.springframework.util.ReflectionUtils;
 
 /**
  * Defines a condition method of a rule implementation. A <code>ConditionMethod</code> reflects the
@@ -76,7 +75,7 @@ public class ConditionMethod {
 	 */
 	public ConditionFailure execute(ExecutionContext context) {
 		try {
-			boolean valid = (boolean) ReflectionUtils.invokeMethod(getMethod(), context.getInstance());
+			boolean valid = (boolean) getMethod().invoke(context.getInstance());
 			if (!valid) {
 				// Store information about the failed condition for later usage
 				return new ConditionFailure(getName(), getHint());

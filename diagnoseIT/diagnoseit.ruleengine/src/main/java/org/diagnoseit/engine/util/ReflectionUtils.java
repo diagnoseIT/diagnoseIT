@@ -10,8 +10,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.core.annotation.AnnotationUtils;
-
 /**
  * Class contains utility methods to work with reflection API.
  *
@@ -93,10 +91,13 @@ public final class ReflectionUtils {
 	 *            The annotation to be looked up.
 	 * @param <T>
 	 *            The type of annotation
-	 * @return true if annotation is present, false otherwise.
+	 * @return the Annotation if found, else <code>null</code>
 	 */
 	public static <T extends Annotation> T findAnnotation(Class<?> clazz, Class<T> annotationClass) {
-		return AnnotationUtils.findAnnotation(clazz, annotationClass);
+		T[] annotationsByType = clazz.getAnnotationsByType(annotationClass);
+		if(annotationsByType.length > 0)
+			return annotationsByType[0];
+		return null;
 	}
 
 	/**

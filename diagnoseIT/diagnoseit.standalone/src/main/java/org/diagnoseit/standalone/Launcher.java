@@ -1,40 +1,75 @@
 package org.diagnoseit.standalone;
 
 import java.util.Collections;
-import java.util.List;
 
+import org.diagnoseit.engine.session.DefaultSessionResult;
 import org.diagnoseit.engine.session.ISessionCallback;
-import org.diagnoseit.rules.result.ProblemOccurrence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spec.research.open.xtrace.api.core.Trace;
 
-import rocks.cta.api.core.Trace;
-
+/**
+ * Launcher for rules that analyze a single trace.
+ * 
+ * @author Alper Hi
+ *
+ */
 public class Launcher {
 
-	
-	private static final String RULES_PACKAGE = "org.diagnoseit.rules.impl";
+	/**
+	 * Rules that should be executed.
+	 */
+	public enum RulePackage {
+		DefaultPackage("org.diagnoseit.rules.impl"),
+		MobilePackage("org.diagnoseit.rules.mobile.impl");
+
+		private String packageName;
+
+		RulePackage(String packageName) {
+			this.packageName = packageName;
+		}
+
+		public String getPackageName() {
+			return this.packageName;
+		}
+
+	};
 
 	public static void main(String[] args) throws ClassNotFoundException {
-		DiagnoseIT diagnoseIT = new DiagnoseIT(
-				Collections.singletonList(RULES_PACKAGE));
+		startLauncher(new TraceCreatorForTesting().createTrace());
+	}
+
+	/**
+	 * @param trace
+	 * @throws ClassNotFoundException
+	 */
+	public static void startLauncher(Trace trace) throws ClassNotFoundException {
+		startLauncher(trace, RulePackage.MobilePackage);
+	}
+
+	/**
+	 * @param trace
+	 * @throws ClassNotFoundException
+	 */
+	public static void startLauncher(Trace trace, RulePackage rulePackage) throws ClassNotFoundException {
+		DiagnoseIT diagnoseIT = new DiagnoseIT(Collections.singletonList(rulePackage.getPackageName()));
 		diagnoseIT.init(new ResultHandler());
-		
-		// TODO: data sink -> diagnoseIT
-		Trace trace = null;
+
 		long baseline = 1000L;
+
 		diagnoseIT.diagnose(trace, baseline);
 	}
-	
-	private static class ResultHandler implements ISessionCallback<List<ProblemOccurrence>> {
+
+	private static class ResultHandler implements ISessionCallback<DefaultSessionResult<Trace>> {
 		/** The logger of this class. */
 		private static final Logger log = LoggerFactory.getLogger(Launcher.class);
-		
+
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
-		public void onSuccess(List<ProblemOccurrence> result) {
+		public void onSuccess(DefaultSessionResult<Trace> result) {
+			System.out.println("Success!!");
 			// TODO: Do Something with diagnosis result
 		}
 
