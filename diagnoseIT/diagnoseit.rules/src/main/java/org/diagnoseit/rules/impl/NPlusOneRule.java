@@ -24,6 +24,10 @@ public class NPlusOneRule {
 	@Action(resultTag = RuleConstants.TAG_N_PLUS_ONE)
 	public boolean action() {
 		System.out.println("Executing NPlusOneRule..");
+		
+		if (cause.getType() != DatabaseInvocation.class) {
+			return false;
+		}
 
 		NestingCallable parent = cause.getCallables().get(0).getParent()
 				.getParent();
