@@ -107,11 +107,11 @@ public class InfluxDBConnectorMobile {
 		Point point1 = Point.measurement(TABLE_MOBILE_DATA)
 				.tag(INFLUXDB_TAG_TRACE, String.valueOf(traceId))
 				.time(measurementTimestamp, TimeUnit.MILLISECONDS)
-				.addField(USE_CASE_ID, useCaseId)
-				.addField(USE_CASE_NAME, useCaseName)
-				.addField(CPU_USAGE, CPUUsage)
-				.addField(MEMORY_USAGE, memoryUsage)
-				.addField(BATTERY_POWER, batteryPower).build();
+				.field(USE_CASE_ID, useCaseId)
+				.field(USE_CASE_NAME, useCaseName)
+				.field(CPU_USAGE, CPUUsage)
+				.field(MEMORY_USAGE, memoryUsage)
+				.field(BATTERY_POWER, batteryPower).build();
 
 		influxDB.write(DATABASE_NAME, RETENTION_POLICY, point1);
 	}
@@ -138,14 +138,14 @@ public class InfluxDBConnectorMobile {
 		Point point1 = Point.measurement(TABLE_MOBILE_DATA)
 				.tag(INFLUXDB_TAG_TRACE, String.valueOf(traceId))
 				.time(measurementTimestamp, TimeUnit.MILLISECONDS)
-				.addField(USE_CASE_ID, useCaseId)
-				.addField(USE_CASE_NAME, useCaseName)
-				.addField(CPU_USAGE, CPUUsage)
-				.addField(MEMORY_USAGE, memoryUsage)
-				.addField(BATTERY_POWER, batteryPower)
-				.addField(USE_CASE_DURATION, useCaseDuration)
-				.addField(AVG_CPU_USAGE, averageCPUUsage)
-				.addField(BATTERY_POWER_DIFFERENCE, batteryPower).build();
+				.field(USE_CASE_ID, useCaseId)
+				.field(USE_CASE_NAME, useCaseName)
+				.field(CPU_USAGE, CPUUsage)
+				.field(MEMORY_USAGE, memoryUsage)
+				.field(BATTERY_POWER, batteryPower)
+				.field(USE_CASE_DURATION, useCaseDuration)
+				.field(AVG_CPU_USAGE, averageCPUUsage)
+				.field(BATTERY_POWER_DIFFERENCE, batteryPower).build();
 
 		influxDB.write(DATABASE_NAME, RETENTION_POLICY, point1);
 	}
