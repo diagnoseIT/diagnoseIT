@@ -7,4 +7,6 @@ dependencies {
 	compile files('libs/adapters.inspectit.jar')
 	compile files('libs/adapters.introscope.jar')
 	compile files('libs/adapters.kieker.jar')
+	
+	compile 'org.reflections:reflections:0.9.11'
 }

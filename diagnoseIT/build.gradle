@@ -10,15 +10,21 @@ subprojects {
 
 	dependencies {
 		testCompile 'junit:junit:4.8.2'
-		testCompile 'net.sourceforge.cobertura:cobertura:2.1.1'
 	}
 
 	version = '0.1.0-SNAPSHOT'
 	group = 'diagnoseit'
-}
-
-File dependenciesFile = file("dependencies.gradle")
-
-allprojects {
-	apply from: file(dependenciesFile.absolutePath)
+	
+	repositories {
+		mavenCentral()
+		maven {
+			name 'diagnoseIT Nexus'
+			url 'http://repository.novatec-gmbh.de/content/repositories/diagnoseIT/'
+		}
+	
+		maven {
+			name 'diagnoseIT-snapshots Nexus'
+			url 'http://repository.novatec-gmbh.de/content/repositories/diagnoseIT-snapshots/'
+		}
+	}
 }
