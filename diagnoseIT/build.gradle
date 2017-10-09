@@ -2,7 +2,6 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
     apply plugin: 'eclipse'
-
 }
 
 subprojects {
@@ -16,9 +15,7 @@ subprojects {
 
 	version = '0.1.0-SNAPSHOT'
 	group = 'diagnoseit'
-
 }
-
 
 File dependenciesFile = file("dependencies.gradle")
 
