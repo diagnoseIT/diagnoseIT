@@ -83,13 +83,13 @@
 //		}
 //
 //		/**
-//		 * getTarget gibt zurück: Host, RuntimeEnvironment, Application,
+//		 * getTarget gibt zurÃ¼ck: Host, RuntimeEnvironment, Application,
 //		 * BusinessTransaction. Ist das selbe wie:
 //		 * targetSubTrace.getLocation().toString() getTarget().equal(....)
 //		 * vergleicht die vier Parameter von Location. Wenn die 4 Parameter von
 //		 * einer RemoteInvocation mit den 4 Parametern von einer anderen
-//		 * RemoteInvocation übereinstimmen, dann war der RemoteCall in beiden
-//		 * Fällen sozusagen der selbe (Anti-Pattern ?) -->
+//		 * RemoteInvocation Ã¼bereinstimmen, dann war der RemoteCall in beiden
+//		 * FÃ¤llen sozusagen der selbe (Anti-Pattern ?) -->
 //		 * remoteInvo.getTarget()
 //		 */
 //
