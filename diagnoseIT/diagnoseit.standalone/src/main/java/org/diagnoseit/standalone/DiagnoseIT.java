@@ -15,11 +15,11 @@ import org.diagnoseit.engine.DiagnosisEngine;
 import org.diagnoseit.engine.DiagnosisEngineConfiguration;
 import org.diagnoseit.engine.IDiagnosisEngine;
 import org.diagnoseit.engine.rule.annotation.Rule;
+import org.diagnoseit.engine.session.DefaultSessionResult;
+import org.diagnoseit.engine.session.DefaultSessionResultCollector;
 import org.diagnoseit.engine.session.ISessionCallback;
 import org.diagnoseit.engine.session.SessionVariables;
 import org.diagnoseit.rules.RuleConstants;
-import org.diagnoseit.rules.result.ProblemInstanceResultCollector;
-import org.diagnoseit.rules.result.ProblemOccurrence;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +88,7 @@ public class DiagnoseIT implements Runnable{
 		}
 	}
 
-	public void init(ISessionCallback<List<ProblemOccurrence>> resultHandler) throws ClassNotFoundException {
+	public void init(ISessionCallback<DefaultSessionResult<Trace>> resultHandler) throws ClassNotFoundException {
 		
 		Set<Class<?>> ruleClasses = new HashSet<>();
 		for (String packageName : rulesPackages) {
@@ -97,11 +97,11 @@ public class DiagnoseIT implements Runnable{
 			ruleClasses.addAll(subTypesOf);
 		}
 
-		DiagnosisEngineConfiguration<Trace, List<ProblemOccurrence>> configuration = new DiagnosisEngineConfiguration<Trace, List<ProblemOccurrence>>();
+		DiagnosisEngineConfiguration<Trace, DefaultSessionResult<Trace>> configuration = new DiagnosisEngineConfiguration<Trace, DefaultSessionResult<Trace>>();
 
 		configuration.setNumSessionWorkers(2);
 		configuration.setRuleClasses(ruleClasses);
-		configuration.setResultCollector(new ProblemInstanceResultCollector<Trace>());
+		configuration.setResultCollector(new DefaultSessionResultCollector<Trace>());
 		configuration.setSessionCallback(resultHandler);
 
 		engine = new DiagnosisEngine<>(configuration);

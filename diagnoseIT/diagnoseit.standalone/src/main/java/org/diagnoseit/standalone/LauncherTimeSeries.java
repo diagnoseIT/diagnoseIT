@@ -1,11 +1,10 @@
 package org.diagnoseit.standalone;
 
 import java.util.Collections;
-import java.util.List;
 
+import org.diagnoseit.engine.session.DefaultSessionResult;
 import org.diagnoseit.engine.session.ISessionCallback;
 import org.diagnoseit.rules.mobile.timeseries.impl.InfluxDBConnectorMobile;
-import org.diagnoseit.rules.result.ProblemOccurrence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +24,7 @@ public class LauncherTimeSeries {
 	}
 
 	private static class ResultHandler implements
-			ISessionCallback<List<ProblemOccurrence>> {
+			ISessionCallback<DefaultSessionResult<InfluxDBConnectorMobile>> {
 		/** The logger of this class. */
 		private static final Logger log = LoggerFactory
 				.getLogger(Launcher.class);
@@ -34,7 +33,7 @@ public class LauncherTimeSeries {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public void onSuccess(List<ProblemOccurrence> result) {
+		public void onSuccess(DefaultSessionResult<InfluxDBConnectorMobile> result) {
 			// TODO: Do Something with diagnosis result
 		}
 

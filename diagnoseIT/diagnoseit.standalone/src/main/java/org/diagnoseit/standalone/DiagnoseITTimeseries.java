@@ -13,11 +13,10 @@ import org.diagnoseit.engine.DiagnosisEngine;
 import org.diagnoseit.engine.DiagnosisEngineConfiguration;
 import org.diagnoseit.engine.IDiagnosisEngine;
 import org.diagnoseit.engine.rule.annotation.Rule;
+import org.diagnoseit.engine.session.DefaultSessionResult;
+import org.diagnoseit.engine.session.DefaultSessionResultCollector;
 import org.diagnoseit.engine.session.ISessionCallback;
 import org.diagnoseit.rules.mobile.timeseries.impl.InfluxDBConnectorMobile;
-import org.diagnoseit.rules.result.ProblemInstanceResultCollector;
-import org.diagnoseit.rules.result.ProblemOccurrence;
-import org.diagnoseit.rules.timeseries.impl.InfluxDBConnector;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,7 +84,7 @@ public class DiagnoseITTimeseries implements Runnable {
 		}
 	}
 
-	public void init(ISessionCallback<List<ProblemOccurrence>> resultHandler)
+	public void init(ISessionCallback<DefaultSessionResult<InfluxDBConnectorMobile>> resultHandler)
 			throws ClassNotFoundException {
 		
 		Set<Class<?>> ruleClasses = new HashSet<>();
@@ -95,11 +94,12 @@ public class DiagnoseITTimeseries implements Runnable {
 			ruleClasses.addAll(subTypesOf);
 		}
 
-		DiagnosisEngineConfiguration<InfluxDBConnectorMobile, List<ProblemOccurrence>> configuration = new DiagnosisEngineConfiguration<InfluxDBConnectorMobile, List<ProblemOccurrence>>();
+		DiagnosisEngineConfiguration<InfluxDBConnectorMobile, DefaultSessionResult<InfluxDBConnectorMobile>> configuration;
+		configuration = new DiagnosisEngineConfiguration<InfluxDBConnectorMobile, DefaultSessionResult<InfluxDBConnectorMobile>>();
 
 		configuration.setNumSessionWorkers(2);
 		configuration.setRuleClasses(ruleClasses);
-		configuration.setResultCollector(new ProblemInstanceResultCollector<InfluxDBConnectorMobile>());
+		configuration.setResultCollector(new DefaultSessionResultCollector<InfluxDBConnectorMobile>());
 		configuration.setSessionCallback(resultHandler);
 
 		engine = new DiagnosisEngine<>(configuration);

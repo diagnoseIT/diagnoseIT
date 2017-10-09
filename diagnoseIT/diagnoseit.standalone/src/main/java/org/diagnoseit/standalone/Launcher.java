@@ -1,10 +1,9 @@
 package org.diagnoseit.standalone;
 
 import java.util.Collections;
-import java.util.List;
 
+import org.diagnoseit.engine.session.DefaultSessionResult;
 import org.diagnoseit.engine.session.ISessionCallback;
-import org.diagnoseit.rules.result.ProblemOccurrence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spec.research.open.xtrace.api.core.Trace;
@@ -52,10 +51,8 @@ public class Launcher {
 	 * @param trace
 	 * @throws ClassNotFoundException
 	 */
-	public static void startLauncher(Trace trace, RulePackage rulePackage)
-			throws ClassNotFoundException {
-		DiagnoseIT diagnoseIT = new DiagnoseIT(
-				Collections.singletonList(rulePackage.getPackageName()));
+	public static void startLauncher(Trace trace, RulePackage rulePackage) throws ClassNotFoundException {
+		DiagnoseIT diagnoseIT = new DiagnoseIT(Collections.singletonList(rulePackage.getPackageName()));
 		diagnoseIT.init(new ResultHandler());
 
 		long baseline = 1000L;
@@ -63,17 +60,15 @@ public class Launcher {
 		diagnoseIT.diagnose(trace, baseline);
 	}
 
-	private static class ResultHandler implements
-			ISessionCallback<List<ProblemOccurrence>> {
+	private static class ResultHandler implements ISessionCallback<DefaultSessionResult<Trace>> {
 		/** The logger of this class. */
-		private static final Logger log = LoggerFactory
-				.getLogger(Launcher.class);
+		private static final Logger log = LoggerFactory.getLogger(Launcher.class);
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
-		public void onSuccess(List<ProblemOccurrence> result) {
+		public void onSuccess(DefaultSessionResult<Trace> result) {
 			System.out.println("Success!!");
 			// TODO: Do Something with diagnosis result
 		}
